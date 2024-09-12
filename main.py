@@ -3,13 +3,12 @@ import uvicorn
 from pydantic import EmailStr, BaseModel
 from typing import Annotated
 from items_views import items_router
+from users.views import router as users_router
+
 
 app = FastAPI()
-app.include_router(items_router)
-class Create_User(BaseModel):
-    name: str
-    email: EmailStr
-
+app.include_router(items_router, tags=['items'])
+app.include_router(users_router, tags=['users'])
 
 
 @app.get("/")
@@ -30,10 +29,6 @@ async def get_calc(a: int = 0, b: int = 0):
             "b": b,
             "sum": a + b}
 
-@app.post('/user/')
-async def create_user(user: Create_User):
-    return {"email":
-            {"email": user}}
 
 
 
